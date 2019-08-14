@@ -1,6 +1,6 @@
 {
   "name": "kirby-oembed",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Field to interface oembed",
   "main": "index.js",
   "author": "Tayeb Bayri",
