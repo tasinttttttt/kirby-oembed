@@ -61,6 +61,6 @@ Method | Return Type | Description
 --- | --- | ---
 `Oembed::getIdByUrl($url)` | `string` | Returns an embed id if available (ex. `http://youtube.com/watch?v=ferZnZ0_rSM` returns `ferZnZ0_rSM `)
 `Oembed::getProviderByUrl($url)` | `string` | Returns the kind of provider (youtube, vimeo, soundcloud, twitch) for the provided `$url`.
-`Oembed::getOembedUrl($url)` | `string` | Returns the oembed url for the provided `$url`.
+`Oembed::getOembedUrl($url)` | `string` | Returns the oembed url for the provided `$url`.
 `Oembed::getEmbedCodeByUrl($url)` | `string` | Returns the embed code for the provided `$key`, if available.
 `Oembed::getOembedJsonByUrl($url)` | `array` | Returns the full json oembed response as an array. Throws an `Exception` if the url is incorrect or if nothing was returned by the provider.
