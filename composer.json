@@ -1,0 +1,30 @@
+{
+  "name": "tasinttttttt/oembed",
+  "description": "A kirby 3 oEmbed field",
+  "version": "0.0.1",
+  "type": "kirby-plugin",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tayeb Bayri",
+      "email": "yo@tayebbayri.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Tasinttttttt\\": "lib/classes/"
+    }
+  },
+  "require": {
+    "php": ">=7.1.0",
+    "getkirby/composer-installer": "^1.1"
+  },
+  "extra": {
+    "installer-name": "oembed"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "minimum-stability": "beta"
+}

@@ -1,0 +1,262 @@
+@import 'required/_variables.scss';
+@import 'required/_mixins.scss';
+
+.k-oembed-field {
+  .k-oembed-embed {
+    position: relative;
+    padding-top: 50%;
+    width: 100%;
+    iframe {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+    }
+  }
+  .k-oembed-empty {
+    border-top: 0;
+  }
+  /* Columns adjustments
+  ----------------------------*/
+
+  .k-sections > .k-column[data-width="1/1"] {
+    .k-oembed-embed {
+      padding-top: 35%;
+      @include responsive-height;
+    }
+  }
+
+  .k-sections > .k-column[data-width="3/4"] {
+    .k-oembed-embed {
+      padding-top: 45%;
+      @include responsive-height;
+    }
+    .content-block {
+      flex-direction: row;
+    }
+  }
+
+  .k-sections > .k-column[data-width="2/3"] {
+    .k-oembed-embed {
+      padding-top: 50%;
+      @include responsive-height;
+    }
+  }
+
+  &[width="1/2"],
+  &[width="1/3"],
+  &[width="1/4"] {
+    .k-oembed-input {
+      .k-button-text {
+        display: none;
+        @media screen and (min-width: $breakpoint-small) {
+          display: block;
+        }
+        @media screen and (min-width: $breakpoint-medium) {
+          display: none;
+        }
+      }
+      svg {
+        margin-right: 0;
+      }
+    }
+    .k-oembed-container {
+      .content {
+        &.table {
+          .content-block {
+            font-size: $font-size-tiny;
+            flex-direction: column;
+            align-items: start;
+            .title {
+              font-size: 0.60rem;
+              &:after {
+                background: transparent;
+              }
+            }
+            .value {
+              padding-left: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* Input
+  ----------------------------*/
+
+  .k-oembed-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: visible;
+    z-index: 3;
+    .k-text-input {
+      @include text-truncate;
+    }
+    button {
+      display: block;
+      border: none;
+      display: inline-block;
+      // background: $color-dark;
+      // color: $color-white;
+      padding: 0 15px;
+      height: 2.25rem;
+      font-size: $font-size-small;
+      outline: 0;
+      display: flex;
+      align-items: center;
+      svg {
+        width: 14px;
+        height: 14px;
+        fill: white;
+        margin-right: 10px;
+      }
+      &.disabled {
+        background: darken($color-background, 0%);
+        color: darken($color-background, 12%);
+        pointer-events: none;
+        svg {
+          fill: darken($color-background, 12%);
+        }
+      }
+    }
+  }
+
+  /* Content
+    ----------------------------*/
+  .k-oembed-container {
+    .content {
+      width: 100%;
+      background: white;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0.25rem 1rem;
+      &.columns {
+        .content-block {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          position: relative;
+          width: 50%;
+          padding: 0.75rem 0;
+          border-bottom: 1px solid lighten($color-border-light, 2%);
+          font-size: $font-size-tiny;
+          // no border on the nth-last(2) only if it's an odd number,
+          // in case there's only one block in the last row
+          &:nth-last-child(2):nth-child(odd),
+          &:last-child {
+            border-bottom: none;
+          }
+          &:nth-child(odd) {
+            padding-right: 1.25rem;
+            &:not(:last-child) {
+              &:after {
+                position: absolute;
+                content: " ";
+                right: 0;
+                top: 1rem;
+                height: calc(100% - 2rem);
+                width: 1px;
+                background: $color-border-light;
+              }
+            }
+          }
+          &:nth-child(even) {
+            padding-left: 1.25rem;
+          }
+          .title {
+            color: lighten($color-dark, 60%);
+            letter-spacing: 0.15px;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+            font-size: $font-size-tiniest;
+          }
+        }
+      }
+      &.table {
+        .content-block {
+          position: relative;
+          width: 100%;
+          padding: 0.5rem 0;
+          border-bottom: 1px solid lighten($color-border-light, 2%);
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: column;
+          align-items: start;
+          overflow: hidden;
+          font-size: $font-size-tiny;
+          @media screen and (min-width: $breakpoint-medium) {
+            align-items: center;
+            flex-direction: row;
+            align-items: center;
+          }
+          &:last-child {
+            border-bottom: none;
+          }
+          .title {
+            position: relative;
+            color: lighten($color-dark, 60%);
+            letter-spacing: 0.15px;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+            font-size: $font-size-tiniest;
+            flex: 1;
+            @media screen and (min-width: $breakpoint-medium) {
+              flex: 0.3;
+            }
+            @media screen and (min-width: $breakpoint-medium) {
+              flex: 0.25;
+            }
+            &:after {
+              @media screen and (min-width: $breakpoint-medium) {
+                position: absolute;
+                content: " ";
+                right: 0;
+                top: 0;
+                height: 100%;
+                width: 1px;
+                background: $color-border-light;
+              }
+            }
+          }
+          .value {
+            padding: 0;
+            flex: 1;
+            word-wrap: break-word;
+            white-space: normal;
+            @media screen and (min-width: $breakpoint-medium) {
+              padding-left: $font-size-tiny;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+      }
+    }
+    .k-empty {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: flex-start;
+        border-top: none;
+        .k-icon {
+            width: 38px;
+            height: 38px;
+            border-right: 1px solid #d6d6d6;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            svg {
+                width: 14px;
+            }
+        }
+        p {
+            line-height: 1.25rem;
+            padding: .5rem .75rem;
+        }
+    }
+  }
+
+}
