@@ -45,7 +45,7 @@ echo $oembed;
 **You need to call `$page->fieldname()->toOembed()` to get access to methods.**
 
 Method | Return Type | Description
---- | --- | --- | ---
+--- | --- | ---
 `getData()` | `array` | Returns the full json response.
 `getEmbedCode` | `string` | Returns the embed code.
 `getTitle()` | `string` | Returns the title if available.
@@ -58,7 +58,7 @@ Method | Return Type | Description
 ## Static Methods
 
 Method | Return Type | Description
---- | --- | --- | ---
+--- | --- | ---
 `Oembed::getIdByUrl($url)` | `string` | Returns an embed id if available (ex. `http://youtube.com/watch?v=ferZnZ0_rSM` returns `ferZnZ0_rSM `)
 `Oembed::getProviderByUrl($url)` | `string` | Returns the kind of provider (youtube, vimeo, soundcloud, twitch) for the provided `$url`.
 `Oembed::getOembedUrl($url)` | `string` | Returns the oembed url for the provided `$url`.
