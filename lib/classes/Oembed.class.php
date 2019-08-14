@@ -60,7 +60,7 @@ class Oembed
                 $this->data = static::getOembedJsonByUrl($url);
                 if ($this->data && count($this->data)) {
                     foreach ($this->data as $key => $value) {
-                        $this->data[$key] = htmlentities($value);
+                        $this->data[$key] = $value;
                     }
                     static::cache()->set(
                         $key,
@@ -82,14 +82,50 @@ class Oembed
     }
 
     /**
-     * Return embed code
+     * Return embed iframe and thumbnail
      * @return string
      */
-    public function getEmbedCode()
+    public function getEmbed()
     {
-        $iframeHtml = $this->data && array_key_exists('html', $this->data) ? htmlspecialchars_decode($this->data['html']) : '';
+        $iframeUrl = Oembed::getEmbedUrl();
+        $parsedUrl = parse_url($iframeUrl);
+        $provider = strtolower(static::getProviderByUrl($this->url));
+        $query = $provider === 'soundcloud' ? "auto_play=1" : "autoplay=1";
+        if (array_key_exists('path', $parsedUrl) && $parsedUrl['path'] == null) {
+            $iframeUrl .= '/';
+        }
+        $separator = (!array_key_exists('query', $parsedUrl) || $parsedUrl['query'] == null) ? '?' : '&';
+        $iframeUrl .= $separator . $query;
+        $iframeHtml = Html::tag('iframe', [], ['data-src' => $iframeUrl]);
         $thumbnailHtml = Html::tag('div', [Html::img($this->getThumbnailUrl())], array('class' => 't-oembed-thumbnail'));
         return Html::tag('div', [$iframeHtml, $thumbnailHtml], array('class' => 't-oembed'));
+    }
+
+    /**
+     * Return embed code
+     * @param  boolean $safe outputs safe html
+     * @return string
+     */
+    public function getEmbedCode($safe = true)
+    {
+        if ($this->data && array_key_exists('html', $this->data)) {
+            return $safe ? htmlentities($this->data['html']) : $this->data['html'];
+        }
+        return '';
+    }
+
+    /**
+     * Return embed url
+     * @return string
+     */
+    public function getEmbedUrl()
+    {
+        $html = $this->data && array_key_exists('html', $this->data) ? $this->data['html'] : '';
+        preg_match("/(?:\<)iframe.+src\=(?:\"|\')(.+?)(?:\"|\')(?:.+?)\/iframe\>/", $html, $match);
+        if ($match && count($match)) {
+            return $match[1];
+        }
+        return '';
     }
 
     /**
@@ -98,7 +134,7 @@ class Oembed
      */
     public function getTitle()
     {
-        return $this->data && array_key_exists('title', $this->data) ? $this->data['title'] : '';
+        return $this->data && array_key_exists('title', $this->data) ? htmlentities($this->data['title']) : '';
     }
 
     /**
@@ -107,7 +143,7 @@ class Oembed
      */
     public function getDescription()
     {
-        return $this->data && array_key_exists('description', $this->data) ? $this->data['description'] : '';
+        return $this->data && array_key_exists('description', $this->data) ? htmlentities($this->data['description']) : '';
     }
 
     /**
@@ -125,7 +161,7 @@ class Oembed
                     case 'vimeo':
                         return 'https://i.vimeocdn.com/video/' . static::getIdByUrl($this->url) . '_1920.jpg';
                     default:
-                        return $this->data['thumbnail_url'];
+                        return htmlentities($this->data['thumbnail_url']);
                 }
             }
         }
@@ -145,13 +181,25 @@ class Oembed
     }
 
     /**
+     * Return embed provided
+     * @return string
+     */
+    public function getProvider()
+    {
+        if ($this->data && $this->url) {
+            return static::getProviderByUrl($this->url);
+        }
+        return '';
+    }
+
+    /**
      * Return custom key from embed data
      * @param  string $key
      * @return string
      */
     public function getKey(string $key)
     {
-        return $this->data && array_key_exists($key, $this->data) ? $this->data[$key] : '';
+        return $this->data && array_key_exists($key, $this->data) ? htmlentities($this->data[$key]) : '';
     }
 
     /**

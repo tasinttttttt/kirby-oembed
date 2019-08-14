@@ -32,18 +32,15 @@ Myfield:
 ```php
 <?php
 
-// Necessary to get access to other field methods.
+// Import css and js to render iframes
+echo css('media/plugins/tasinttttttt/oembed/oembed.css');
+echo js('media/plugins/tasinttttttt/oembed/oembed.js');
+
+// Necessary to get access field methods.
 $oembed = $page->myfield()->toOembed();
 
-echo $oembed->getTitle();
-// Outputs: BAZOGA \u2014 TFHEM TSETTA #1
-
-echo $oembed->getEmbedCode();
-// Outputs:
-// "\u003ciframe width=\"480\" height=\"270\" src=\"https:\/\/www.youtube.com\/embed\/M6zR09nn9gE?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen\u003e\u003c\/iframe\u003e"
-
-echo $oembed;
-// Outputs a string representation of the data. (debug purposes)
+// Outputs an iframe with clickable thumbnail and autoplay
+echo $oembed->getEmbed();
 ```
 
 ## Template Methods
@@ -53,9 +50,12 @@ echo $oembed;
 Method | Return Type | Description
 --- | --- | ---
 `getData()` | `array` | Returns the full json response.
-`getEmbedCode` | `string` | Returns the embed code.
+`getEmbed()` | `string` | Returns a clickable html element with thumbnail and iframe.
+`getEmbedCode($safe = false)` | `string` | Returns the embed code., `$safe` determines whether the output has escaped html or not. Use at your own risk.
+`getEmbedUrl()` | `string` | Returns the embed url.
 `getTitle()` | `string` | Returns the title if available.
 `getDescription()` | `string` | Returns the description if available.
+`getProvider()`
 `getThumbnail()` | `array` | Returns an array with thumbnail information. Keys are: `thumbnail_url`, `thumbnail_width`, `thumbnail_height`. All keys are returned, but all may not contain data.
 `getId()` | `string` | Returns the id if available. (ex. `http://youtube.com/watch?v=ferZnZ0_rSM` returns `ferZnZ0_rSM`)
 `getKey($key)` | `mixed` | Returns the value for the provided `$key`, if available.
