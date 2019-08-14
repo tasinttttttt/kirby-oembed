@@ -2,6 +2,9 @@
 
 namespace Tasinttttttt;
 
+use \Kirby\Toolkit\Html;
+use \Kirby\Cache\Cache;
+
 class Oembed
 {
     /** @var string media url */
@@ -84,7 +87,9 @@ class Oembed
      */
     public function getEmbedCode()
     {
-        return $this->data && array_key_exists('html', $this->data) ? htmlspecialchars_decode($this->data['html']) : '';
+        $iframeHtml = $this->data && array_key_exists('html', $this->data) ? htmlspecialchars_decode($this->data['html']) : '';
+        $thumbnailHtml = Html::tag('div', [Html::img($this->getThumbnailUrl())], array('class' => 't-oembed-thumbnail'));
+        return Html::tag('div', [$iframeHtml, $thumbnailHtml], array('class' => 't-oembed'));
     }
 
     /**
@@ -109,34 +114,22 @@ class Oembed
      * Return thumbnail info as an array
      * @return array
      */
-    public function getThumbnail()
+    public function getThumbnailUrl()
     {
-        $result = array();
         if ($this->data) {
-            $keys = array(
-                'thumbnail_url',
-                'thumbnail_width',
-                'thumbnail_height'
-            );
-            foreach ($keys as $key) {
-                $result[$key] = $this->data[$key];
-            }
-            if (array_key_exists('thumbnail_url', $res)) {
-                $provider = strtolower(static::getProviderType());
+            if (array_key_exists('thumbnail_url', $this->data)) {
+                $provider = strtolower(static::getProviderByUrl($this->url));
                 switch ($provider) {
                     case 'youtube':
-                        $result['thumbnail_url'] = 'https://img.youtube.com/vi/' . static::getIdByUrl($this->url) . '/maxresdefault.jpg';
-                        break;
+                        return 'https://img.youtube.com/vi/' . static::getIdByUrl($this->url) . '/maxresdefault.jpg';
                     case 'vimeo':
-                        $result['thumbnail_url'] = 'https://i.vimeocdn.com/video/' . static::getIdByUrl($this->url) . '_1920.jpg';
-                        $result['thumbnail_width'] = 1920;
-                        break;
+                        return 'https://i.vimeocdn.com/video/' . static::getIdByUrl($this->url) . '_1920.jpg';
                     default:
-                        break;
+                        return $this->data['thumbnail_url'];
                 }
             }
         }
-        return $result;
+        return '';
     }
 
     /**
@@ -171,12 +164,12 @@ class Oembed
         if (!$url) {
             return '';
         }
-        $provider = static::getProviderType($url);
+        $provider = static::getProviderByUrl($url);
         switch ($provider) {
             case 'youtube':
                 $parsed = array();
                 parse_str(parse_url($url, PHP_URL_QUERY), $parsed);
-                if (array_key_exists('v', $my_array_of_vars['v'])) {
+                if (array_key_exists('v', $parsed)) {
                     return $parsed['v'];
                 } else {
                     return '';
