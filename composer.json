@@ -1,7 +1,6 @@
 {
   "name": "tasinttttttt/oembed",
   "description": "A kirby 3 oEmbed field",
-  "version": "0.0.1",
   "type": "kirby-plugin",
   "license": "MIT",
   "authors": [
