@@ -2,6 +2,12 @@
 
 oEmbed kirby field
 
+## Installation
+
+- unzip [master.zip](https://github.com/tasinttttttt/kirby-oembed/archive/master.zip) as folder `site/plugins/oembed` or
+- `git submodule add https://github.com/tasinttttttt/kirby-oembed.git site/plugins/oembed` or
+- `composer require tasinttttttt/oembed`
+
 ## Setup
 
 **In Blueprint:**
