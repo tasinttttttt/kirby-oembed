@@ -84,7 +84,7 @@ class Oembed
      */
     public function getEmbedCode()
     {
-        return $this->data && array_key_exists('html', $this->data) ? $this->data['html'] : '';
+        return $this->data && array_key_exists('html', $this->data) ? htmlspecialchars_decode($this->data['html']) : '';
     }
 
     /**
