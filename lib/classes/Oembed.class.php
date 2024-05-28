@@ -23,14 +23,14 @@ class Oembed
      * Interface to Kirby Cache
      * @return \Kirby\Cache\Cache
      */
-    private static function cache(): \Kirby\Cache\Cache
+    private static function cache(): Cache
     {
         if (!static::$cache) {
             static::$cache = kirby()->cache('tasinttttttt.oembed');
         }
         // create new index table on new version of plugin
         if (!static::$indexname) {
-            static::$indexname = 'index'.str_replace('.', '', kirby()->plugin('tasinttttttt/oembed')->version()[0]);
+            static::$indexname = 'index' . str_replace('.', '', kirby()->plugin('tasinttttttt/oembed')->version()[0]);
         }
         return static::$cache;
     }
@@ -274,13 +274,13 @@ class Oembed
     {
         switch (static::getProviderByUrl($url)) {
             case 'soundcloud':
-                return option('tasinttttttt.oembed.oembedApis.soundcloud') . "?format=${format}&url=${url}";
+                return option('tasinttttttt.oembed.oembedApis.soundcloud') . "?format=$format&url=$url";
             case 'twitch':
-                return option('tasinttttttt.oembed.oembedApis.twitch') . "format=${format}&url=${url}";
+                return option('tasinttttttt.oembed.oembedApis.twitch') . "format=$format&url=$url";
             case 'vimeo':
-                return option('tasinttttttt.oembed.oembedApis.vimeo') . "?format=${format}&url=${url}";
+                return option('tasinttttttt.oembed.oembedApis.vimeo') . "?format=$format&url=$url";
             case 'youtube':
-                return option('tasinttttttt.oembed.oembedApis.youtube') . "?format=${format}&url=${url}";
+                return option('tasinttttttt.oembed.oembedApis.youtube') . "?format=$format&url=$url";
             default:
                 return '';
         }
@@ -335,7 +335,7 @@ class Oembed
      * @param  array  $context
      * @return bool
      */
-    private static function log(string $msg = '', string $level = 'info', array $context = []):bool
+    private static function log(string $msg = '', string $level = 'info', array $context = []): bool
     {
         $log = option('tasinttttttt.oembed.log');
         if ($log && is_callable($log)) {
@@ -368,7 +368,7 @@ class Oembed
         if ($this->data) {
             $res = "";
             foreach ($this->data as $key => $value) {
-                $res .= " [${key}: ${value}] ";
+                $res .= " [$key: $value] ";
             }
             return $res;
         }
