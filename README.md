@@ -1,6 +1,8 @@
 # Kirby 3 - oEmbed
 
-oEmbed kirby field
+Adds oEmbed to kirby.
+
+![|400](https://github.com/tasinttttttt/kirby-oembed/assets/2914169/5da016be-ac1f-47e5-b98f-8d0205bd3a7b)
 
 ## Installation
 
